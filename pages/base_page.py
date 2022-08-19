@@ -1,7 +1,7 @@
 from selenium.common.exceptions import (NoSuchElementException, NoAlertPresentException, TimeoutException)
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from .locators import BasePageLocators
+from .locators import (BasePageLocators, MainPageLocators, CartPageLocators)
 import math
 
 class BasePage():
@@ -18,6 +18,16 @@ class BasePage():
 
     def should_be_login_link(self):
         assert self.is_element_present(*BasePageLocators.LOGIN_LINK), "Login link is not presented"
+
+    def go_into_cart(self):
+        self.browser.find_element(*MainPageLocators.CART_BUTTON).click()
+
+    def should_not_be_item_in_cart(self):
+        assert self.is_not_element_present(*CartPageLocators.CART_ITEM), 'Cart item is presented'
+
+    def should_be_empty_cart_text(self):
+        assert self.browser.find_element(*CartPageLocators.CART_ITEM_EMPTY_TEXT), 'Text about empty cart is missing'
+
 
     def open(self):
         self.browser.get(self.url)

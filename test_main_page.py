@@ -15,3 +15,17 @@ def test_guest_can_go_to_login_page(browser):
     login_page.should_be_login_form()
     login_page.should_be_register_form()
 
+def test_guest_cant_see_product_in_basket_opened_from_main_page(browser):
+    page = MainPage(browser, link)
+    page.open()
+    page.go_into_cart()
+    page.should_not_be_item_in_cart()
+    page.should_be_empty_cart_text()
+
+
+
+
+
+
+
+
