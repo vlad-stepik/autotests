@@ -1,10 +1,10 @@
 from .base_page import BasePage
-from .locators import (MainPageLocators, LoginPageLocators)
+from .locators import (MainPageLocators, BasePageLocators, LoginPageLocators)
 
 
 class LoginPage(BasePage):
     def should_be_login_page(self):
-        self.browser.find_element(*MainPageLocators.LOGIN_LINK).click()
+        self.browser.find_element(*BasePageLocators.LOGIN_LINK).click()
         self.browser.find_element(*LoginPageLocators.LOGIN_FORM)
         self.browser.find_element(*LoginPageLocators.REGISTER_FORM)
 
