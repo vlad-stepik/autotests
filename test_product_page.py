@@ -16,8 +16,6 @@ def test_guest_can_add_product_to_basket(browser):
     page.solve_quiz_and_get_code()
     page.check_product_added_to_cart()
     page.check_product_price()
-    # page.should_disappear_success_message() проверка, что сообщение исчезает
-    # page.should_not_be_success_message() проверка, что сообщение об успешном добавлении в корзину не появляется
 
 # тест с багом по ссылке + помечаем баг как xfail
 @pytest.mark.parametrize('promo_offer', [pytest.param(i, marks=pytest.mark.xfail(i==7, reason='bugged_link')) for i in range(10)])
@@ -30,6 +28,7 @@ def test_promo_page(browser, promo_offer):
     page.check_product_added_to_cart()
     page.check_product_price()
 
+@pytest.mark.xfail
 def test_guest_cant_see_success_message_after_adding_product_to_basket(browser):
     page = ProductPage(browser, base_url)
     page.open()
@@ -41,6 +40,7 @@ def test_guest_cant_see_success_message(browser):
     page.open()
     page.should_not_be_success_message()
 
+@pytest.mark.xfail
 def test_message_disappeared_after_adding_product_to_basket(browser):
     page = ProductPage(browser, base_url)
     page.open()
