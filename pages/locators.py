@@ -14,6 +14,11 @@ class BasePageLocators():
 class LoginPageLocators():
     LOGIN_FORM = (By.ID, 'login_form')
     REGISTER_FORM = (By.ID, 'register_form')
+    EMAIL_FIELD = (By.NAME, 'registration-email')
+    PASSWORD_FIELD = (By.NAME, 'registration-password1')
+    PASSWORD_REPEAT_FIELD = (By.NAME, 'registration-password2')
+    REGISTER_FORM_BUTTON = (By.NAME, 'registration_submit')
+    USER_ICON = (By.CSS_SELECTOR, ".icon-user")
 
 class ProductPageLocators():
     ADD_TO_CART_BUTTON = (By.CSS_SELECTOR, 'button.btn-add-to-basket')

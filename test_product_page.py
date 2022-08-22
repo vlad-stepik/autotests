@@ -1,8 +1,10 @@
 import pytest
 from .pages.product_page import ProductPage
+from .pages.login_page import LoginPage
 import time
 
 base_url = 'http://selenium1py.pythonanywhere.com/catalogue/the-shellcoders-handbook_209/'
+reg_url = 'http://selenium1py.pythonanywhere.com/accounts/login/'
 
 
 # тест для проверки добавления товара в корзину
@@ -12,7 +14,6 @@ def test_guest_can_add_product_to_basket(browser):
     page.open()
     page.add_to_cart_button()
     page.solve_quiz_and_get_code()
-    time.sleep(2)
     page.check_product_added_to_cart()
     page.check_product_price()
     # page.should_disappear_success_message() проверка, что сообщение исчезает
@@ -26,7 +27,6 @@ def test_promo_page(browser, promo_offer):
     page.open()
     page.add_to_cart_button()
     page.solve_quiz_and_get_code()
-    time.sleep(2)
     page.check_product_added_to_cart()
     page.check_product_price()
 
@@ -67,3 +67,29 @@ def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
     page.go_into_cart()
     page.should_not_be_item_in_cart()
     page.should_be_empty_cart_text()
+
+@pytest.mark.login
+class TestUserAddToBasketFromProductPage():
+
+    @pytest.fixture(scope='function', autouse=True)
+    def setup(self, browser):
+        email = str(time.time()) + "@fakemail.org"
+        page = LoginPage(browser, reg_url)
+        page.open()
+        page.register_new_user(email=email, password='somepass123456')
+        page.should_be_authorized_user()
+
+    def test_user_cant_see_success_message(self, browser):
+        page = ProductPage(browser, base_url)
+        page.open()
+        page.should_not_be_success_message()
+
+    def test_user_can_add_product_to_basket(self, browser):
+        link = 'http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/'
+        page = ProductPage(browser, link)
+        page.open()
+        page.add_to_cart_button()
+        page.check_product_added_to_cart()
+        page.check_product_price()
+
+
